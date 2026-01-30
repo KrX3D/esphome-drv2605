@@ -95,7 +95,11 @@ template<typename... Ts> class PlayEffectAction : public Action<Ts...> {
   
   TEMPLATABLE_VALUE(uint8_t, effect)
 
+#if defined(ESPHOME_VERSION_CODE) && ESPHOME_VERSION_CODE >= VERSION_CODE(2025,11,0)
+  void play(const Ts&... x) override {
+#else
   void play(Ts... x) override {
+#endif
     uint8_t effect = this->effect_.value(x...);
     this->parent_->play_effect(effect);
   }
@@ -110,7 +114,11 @@ template<typename... Ts> class PlaySequenceAction : public Action<Ts...> {
   
   void set_effects(const std::vector<uint8_t> &effects) { this->effects_ = effects; }
 
+#if defined(ESPHOME_VERSION_CODE) && ESPHOME_VERSION_CODE >= VERSION_CODE(2025,11,0)
+  void play(const Ts&... x) override {
+#else
   void play(Ts... x) override {
+#endif
     this->parent_->play_sequence(this->effects_);
   }
 
@@ -123,7 +131,11 @@ template<typename... Ts> class StopAction : public Action<Ts...> {
  public:
   explicit StopAction(DRV2605Component *parent) : parent_(parent) {}
 
+#if defined(ESPHOME_VERSION_CODE) && ESPHOME_VERSION_CODE >= VERSION_CODE(2025,11,0)
+  void play(const Ts&... x) override {
+#else
   void play(Ts... x) override {
+#endif
     this->parent_->stop();
   }
 
@@ -137,7 +149,11 @@ template<typename... Ts> class SetRealtimeValueAction : public Action<Ts...> {
   
   TEMPLATABLE_VALUE(uint8_t, value)
 
+#if defined(ESPHOME_VERSION_CODE) && ESPHOME_VERSION_CODE >= VERSION_CODE(2025,11,0)
+  void play(const Ts&... x) override {
+#else
   void play(Ts... x) override {
+#endif
     uint8_t value = this->value_.value(x...);
     this->parent_->set_realtime_value(value);
   }
